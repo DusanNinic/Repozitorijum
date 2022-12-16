@@ -1,0 +1,48 @@
+
+var Ukr=evropa
+.filter(ee.Filter.eq('ADM0_NAME','Ukraine'));
+
+
+var janrat=svetlo
+.filterDate('2022-01-01')
+.select('avg_rad')
+.mean()
+.clip(Ukr);
+Map.addLayer(janrat.updateMask(janrat.lt(-1).or(janrat.gt(1))), {min:-10,max:15, palette:'blue,purple,yellow'});
+
+var febrat=svetlo
+.filterDate('2022-02-01')
+.select('avg_rad')
+.mean()
+.clip(Ukr);
+Map.addLayer(febrat.updateMask(febrat.lt(-1).or(febrat.gt(1))), {min:-10,max:15, palette:'blue,purple,yellow'});
+var martrat=svetlo
+.filterDate('2022-03-01')
+.select('avg_rad')
+.mean()
+.clip(Ukr);
+Map.addLayer(martrat.updateMask(martrat.lt(-1).or(martrat.gt(1))), {min:-10,max:15, palette:'blue,purple,yellow'});
+var aprrat=svetlo
+.filterDate('2022-04-01')
+.select('avg_rad')
+.mean()
+.clip(Ukr);
+Map.addLayer(aprrat.updateMask(aprrat.lt(-1).or(aprrat.gt(1))), {min:-10,max:15, palette:'blue,purple,yellow'});
+var majrat=svetlo
+.filterDate('2022-05-01')
+.select('avg_rad')
+.mean()
+.clip(Ukr);
+Map.addLayer(majrat.updateMask(majrat.lt(-1).or(majrat.gt(1))), {min:-10,max:15, palette:'blue,purple,yellow'});
+
+Map.centerObject (Ukr,5)
+var slider= ui.Slider ();
+slider.onSlide(function(vrednost){
+var pocvrednost=vrednost *(Map.layers().length()- 1)>>0
+Map.layers().get(pocvrednost).setOpacity(1);
+for (var i=pocvrednost+1;i<Map.layers().length();i++){
+  Map.layers().get(i).setOpacity(0);
+}
+});
+
+Map.add (slider)
